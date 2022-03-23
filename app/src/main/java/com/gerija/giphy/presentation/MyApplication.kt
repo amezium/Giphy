@@ -5,7 +5,7 @@ import com.gerija.giphy.di.DaggerApplicationsComponent
 import com.gerija.giphy.di.GifsModuleProvide
 import javax.inject.Inject
 
-class MyApplication: Application() {
+class MyApplication : Application() {
 
     val component by lazy {
         DaggerApplicationsComponent.builder().gifsModuleProvide(GifsModuleProvide(this)).build()

@@ -9,23 +9,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gerija.giphy.R
-import com.gerija.giphy.data.api.dto.Data
+import com.gerija.giphy.data.remote.api.dto.Data
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
 
-class GifsAdapter(val context: Context, val gifOnClick: GifOnClick)
-    : RecyclerView.Adapter<GifsAdapter.GifsViewHolder>() {
+class GifsAdapter(val context: Context, val gifOnClick: GifOnClick) :
+    RecyclerView.Adapter<GifsAdapter.GifsViewHolder>() {
 
     var gifsList = arrayListOf<Data>()
-    set(value) {
-        val callBack = GifItemDiffCallBack(gifsList, value)
-        val diffResult = DiffUtil.calculateDiff(callBack)
-        diffResult.dispatchUpdatesTo(this)
-        field = value
-     }
+        set(value) {
+            val callBack = GifItemDiffCallBack(gifsList, value)
+            val diffResult = DiffUtil.calculateDiff(callBack)
+            diffResult.dispatchUpdatesTo(this)
+            field = value
+        }
 
-    interface GifOnClick{
+    interface GifOnClick {
         fun onClick(gifsList: ArrayList<Data>, position: Int) //для перехода на окно слайдера
         fun deleteItem(position: Int) //для удаления с mainActivity
     }
@@ -37,7 +37,7 @@ class GifsAdapter(val context: Context, val gifOnClick: GifOnClick)
         init {
             itemView.setOnClickListener {
                 gifOnClick.onClick(gifsList, position)
-           }
+            }
         }
     }
 

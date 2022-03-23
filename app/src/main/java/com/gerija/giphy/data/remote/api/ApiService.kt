@@ -1,6 +1,6 @@
-package com.gerija.giphy.data.api
+package com.gerija.giphy.data.remote.api
 
-import com.gerija.giphy.data.api.dto.GifsContainer
+import com.gerija.giphy.data.remote.api.dto.GifsContainer
 import retrofit2.http.GET
 import retrofit2.http.Query
 

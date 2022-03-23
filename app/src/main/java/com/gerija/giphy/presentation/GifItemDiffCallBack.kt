@@ -1,10 +1,12 @@
 package com.gerija.giphy.presentation
 
 import androidx.recyclerview.widget.DiffUtil
-import com.gerija.giphy.data.api.dto.Data
+import com.gerija.giphy.data.remote.api.dto.Data
 
-class GifItemDiffCallBack(private val oldList: ArrayList<Data>, private val newList: ArrayList<Data>)
-    : DiffUtil.Callback() {
+class GifItemDiffCallBack(
+    private val oldList: ArrayList<Data>,
+    private val newList: ArrayList<Data>
+) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
         return oldList.size

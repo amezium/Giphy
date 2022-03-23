@@ -1,16 +1,16 @@
 package com.gerija.giphy.presentation
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gerija.giphy.data.api.dto.Data
-import com.gerija.giphy.domain.*
+import com.gerija.giphy.data.remote.api.dto.Data
+import com.gerija.giphy.domain.DeleteUseCase
+import com.gerija.giphy.domain.GetSearchGifsUseCase
+import com.gerija.giphy.domain.GetTopGifsUseCase
+import com.gerija.giphy.domain.LoadDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.NetPermission
 import javax.inject.Inject
 
 class GifsViewModel @Inject constructor(
@@ -42,7 +42,7 @@ class GifsViewModel @Inject constructor(
     /**
      * Загружаю данные в базу
      */
-    fun loadNet(){
+    fun loadNet() {
         viewModelScope.launch(Dispatchers.IO) {
             loadDataUseCase()
         }

@@ -9,7 +9,7 @@ import javax.inject.Provider
 @ApplicationScope
 class GifsViewModelFactory @Inject constructor(
     private val viewModelsProvider: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return viewModelsProvider[modelClass]?.get() as T

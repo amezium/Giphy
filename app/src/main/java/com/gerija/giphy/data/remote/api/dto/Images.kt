@@ -1,4 +1,4 @@
-package com.gerija.giphy.data.api.dto
+package com.gerija.giphy.data.remote.api.dto
 
 import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName

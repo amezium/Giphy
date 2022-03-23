@@ -1,7 +1,6 @@
 package com.gerija.giphy.di
 
 
-
 import com.gerija.giphy.presentation.MainActivity
 import com.gerija.giphy.presentation.SingleGifActivity
 import dagger.Component

@@ -1,4 +1,4 @@
-package com.gerija.giphy.data.api
+package com.gerija.giphy.data.remote.api
 
 
 import retrofit2.Retrofit
@@ -8,7 +8,7 @@ object ApiFactory {
 
     private const val BASE_URL = "https://api.giphy.com/v1/gifs/"
 
-    fun create(): ApiService{
+    fun create(): ApiService {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)

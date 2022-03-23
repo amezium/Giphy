@@ -1,11 +1,10 @@
-package com.gerija.giphy.data.database
+package com.gerija.giphy.data.local.database
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.gerija.giphy.data.api.dto.Data
+import com.gerija.giphy.data.remote.api.dto.Data
 
 @Database(entities = [Data::class], version = 2, exportSchema = false)
 abstract class GifsDatabase : RoomDatabase() {

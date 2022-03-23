@@ -4,20 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gerija.giphy.data.api.dto.Data
+import com.gerija.giphy.data.remote.api.dto.Data
 import com.gerija.giphy.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,6 +47,7 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         adapter = GifsAdapter(this, this)
         binding.recyclerViewId.adapter = adapter
 
+        //проверяю, первый ли раз установлено приложение, если да, наполняю базу данными с api
         if (loadDataNet()) {
             viewModel.loadNet()
             loadNet.edit().putBoolean(LOAD_NET, false).apply()
@@ -62,6 +60,9 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         getDataViewModel() //подписываюсь на обновления данных с viewModel
     }
 
+    /**
+     * Проверка первый ли раз установлено приложение
+     */
     private fun loadDataNet(): Boolean {
         loadNet = getSharedPreferences(LOAD_NET, Context.MODE_PRIVATE)
         return loadNet.getBoolean(LOAD_NET, true)
@@ -114,7 +115,6 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         viewModel._topGifs.observe(this) {
             viewModel.gifsListMyAct.addAll(it)
             it.forEach {
-                Log.d("MyLog55", "${it.key}")
                 viewModel.offsetTopMyAct = it.key
             }
             startAdapter(it)
@@ -168,6 +168,9 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         })
     }
 
+    /**
+     * Когда поле поискать снова пустое, по нажатию на кнопку загружаю основной контент
+     */
     private fun cleanSearch() {
         lifecycleScope.launch {
             delay(600)

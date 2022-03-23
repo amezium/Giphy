@@ -1,9 +1,8 @@
-package com.gerija.giphy.data.database
-
+package com.gerija.giphy.data.local.database
 
 
 import androidx.room.*
-import com.gerija.giphy.data.api.dto.Data
+import com.gerija.giphy.data.remote.api.dto.Data
 
 
 @Dao
