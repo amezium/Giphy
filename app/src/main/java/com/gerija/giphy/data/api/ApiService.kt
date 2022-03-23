@@ -10,21 +10,11 @@ interface ApiService {
     suspend fun getGifsAreTrending(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("offset") offset: Int,
-        @Query("rating") rating: String = RATING,
-    ): GifsContainer
-
-    @GET("search")
-    suspend fun getSearchGifs(
-        @Query("api_key") api: String = API_KEY,
-        @Query("q") field: String,
-        @Query("offset") offset: Int,
-        @Query("rating") rating: String = RATING,
-        @Query("lang") lang: String = LANG
+        @Query("rating") rating: String = RATING
     ): GifsContainer
 
     companion object{
         private const val API_KEY = "U6BGrK0dzxJPCZy8fi2Bl0LuEeyVG5oW"
         private const val RATING = "g"
-        private const val LANG = "en"
     }
 }

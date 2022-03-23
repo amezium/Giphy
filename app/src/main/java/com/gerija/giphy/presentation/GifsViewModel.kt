@@ -1,5 +1,7 @@
 package com.gerija.giphy.presentation
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import com.gerija.giphy.data.api.dto.Data
 import com.gerija.giphy.domain.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.NetPermission
 import javax.inject.Inject
 
 class GifsViewModel @Inject constructor(
@@ -16,6 +19,7 @@ class GifsViewModel @Inject constructor(
     private val loadDataUseCase: LoadDataUseCase,
     private val deleteUseCase: DeleteUseCase
 ) : ViewModel() {
+
 
     private var topGifs = MutableLiveData<List<Data>>()
     val _topGifs: LiveData<List<Data>> get() = topGifs
@@ -34,10 +38,11 @@ class GifsViewModel @Inject constructor(
     var offsetSearchMyAct = 0
     var offsetTopMyAct = 0
 
+
     /**
      * Загружаю данные в базу
      */
-    init {
+    fun loadNet(){
         viewModelScope.launch(Dispatchers.IO) {
             loadDataUseCase()
         }

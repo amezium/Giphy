@@ -1,6 +1,8 @@
 package com.gerija.giphy.presentation
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
 
     lateinit var binding: ActivityMainBinding
+    private lateinit var loadNet: SharedPreferences
 
     @Inject
     lateinit var viewModelFactory: GifsViewModelFactory
@@ -34,6 +37,10 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
     lateinit var adapter: GifsAdapter
     private var searchText: String? = null
 
+    companion object {
+        const val LOAD_NET = "loadNet"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +50,21 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         adapter = GifsAdapter(this, this)
         binding.recyclerViewId.adapter = adapter
 
+        if (loadDataNet()) {
+            viewModel.loadNet()
+            loadNet.edit().putBoolean(LOAD_NET, false).apply()
+        }
+
         setLayoutManager() //Задаю LayoutManager в зависимости от ориентации на телефоне
         setFromApiTopInViewModel() //получаю данные с репозитория, подписавшись на них
         getFieldSearch() // загружаю данные с апи, для поиска и если пустая строка для топ
         scrollEnd() // вторая выгрузка данных, как дошло до конца скролла
         getDataViewModel() //подписываюсь на обновления данных с viewModel
+    }
+
+    private fun loadDataNet(): Boolean {
+        loadNet = getSharedPreferences(LOAD_NET, Context.MODE_PRIVATE)
+        return loadNet.getBoolean(LOAD_NET, true)
     }
 
     /**
@@ -97,6 +114,7 @@ class MainActivity : AppCompatActivity(), GifsAdapter.GifOnClick {
         viewModel._topGifs.observe(this) {
             viewModel.gifsListMyAct.addAll(it)
             it.forEach {
+                Log.d("MyLog55", "${it.key}")
                 viewModel.offsetTopMyAct = it.key
             }
             startAdapter(it)
