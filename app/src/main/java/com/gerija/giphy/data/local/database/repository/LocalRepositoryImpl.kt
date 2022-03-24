@@ -28,4 +28,11 @@ class LocalRepositoryImpl @Inject constructor(private val dao: GifsDao) : LocalR
     override fun delete(data: Data) {
         dao.delete(data)
     }
+
+    /**
+     * Наполняю базу данными с Api
+     */
+    override fun insertDatabase(list: List<Data>) {
+        dao.insertData(list)
+    }
 }

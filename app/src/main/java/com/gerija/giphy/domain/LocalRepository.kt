@@ -19,4 +19,8 @@ interface LocalRepository {
      */
     fun delete(data: Data)
 
+    /**
+     * Наполняю базу данными с Api
+     */
+    fun insertDatabase(list: List<Data>)
 }

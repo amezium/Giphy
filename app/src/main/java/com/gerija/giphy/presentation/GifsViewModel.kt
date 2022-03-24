@@ -1,29 +1,24 @@
 package com.gerija.giphy.presentation
 
-import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gerija.giphy.data.remote.api.dto.Data
-import com.gerija.giphy.domain.DeleteUseCase
-import com.gerija.giphy.domain.GetSearchGifsUseCase
-import com.gerija.giphy.domain.GetTopGifsUseCase
-import com.gerija.giphy.domain.LoadDataUseCase
+import com.gerija.giphy.domain.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class GifsViewModel @Inject constructor(
     private val getTopGifsUseCase: GetTopGifsUseCase,
     private val getSearchGifsUseCase: GetSearchGifsUseCase,
     private val loadDataUseCase: LoadDataUseCase,
     private val deleteUseCase: DeleteUseCase,
-    private val application: Application
+    private val insertDatabaseUseCase: InsertDatabaseUseCase
 ) : ViewModel() {
-
 
     private var topGifs = MutableLiveData<List<Data>>()
     val _topGifs: LiveData<List<Data>> get() = topGifs
@@ -45,15 +40,19 @@ class GifsViewModel @Inject constructor(
 
     /**
      * Загружаю данные в базу
+     * В бесплатной версии Api лимит 50шт за раз, делаю через цикл, максимум дает 3950шт
      */
     fun loadNet() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                loadDataUseCase()
-            } catch (e:Exception){
-                launch(Dispatchers.Main) {
-                    Toast.makeText(application, "No Internet", Toast.LENGTH_LONG).show()
+                var count = 0
+                while (true) {
+                    insertDatabaseUseCase(loadDataUseCase(count))
+                    count += 50
+                    if (count == 3950) break
                 }
+            } catch (e: Exception) {
+                Log.d("MyLog", "$e")
             }
         }
     }
