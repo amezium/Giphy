@@ -1,5 +1,8 @@
 package com.gerija.giphy.presentation
 
+import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +20,8 @@ class GifsViewModel @Inject constructor(
     private val getTopGifsUseCase: GetTopGifsUseCase,
     private val getSearchGifsUseCase: GetSearchGifsUseCase,
     private val loadDataUseCase: LoadDataUseCase,
-    private val deleteUseCase: DeleteUseCase
+    private val deleteUseCase: DeleteUseCase,
+    private val application: Application
 ) : ViewModel() {
 
 
@@ -44,7 +48,13 @@ class GifsViewModel @Inject constructor(
      */
     fun loadNet() {
         viewModelScope.launch(Dispatchers.IO) {
-            loadDataUseCase()
+            try {
+                loadDataUseCase()
+            } catch (e:Exception){
+                launch(Dispatchers.Main) {
+                    Toast.makeText(application, "No Internet", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

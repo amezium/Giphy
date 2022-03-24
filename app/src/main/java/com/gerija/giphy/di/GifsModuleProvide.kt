@@ -5,6 +5,7 @@ import com.gerija.giphy.data.remote.api.ApiFactory
 import com.gerija.giphy.data.remote.api.ApiService
 import com.gerija.giphy.data.local.database.GifsDao
 import com.gerija.giphy.data.local.database.GifsDatabase
+import com.gerija.giphy.presentation.MainActivity
 import dagger.Module
 import dagger.Provides
 
